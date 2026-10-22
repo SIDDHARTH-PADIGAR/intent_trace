@@ -1,0 +1,262 @@
+{
+  "project": "IntentTrace",
+  "checkpoint": 1,
+  "status": "designed_not_run",
+  "purpose": "Freeze a small, manually scorable reference set before either documentation approach is implemented or evaluated.",
+  "scoring_categories": {
+    "A": "Action and step correctness",
+    "I": "Explicit intent and constraints",
+    "H": "Exception or correction handling",
+    "G": "Evidence support and calibrated uncertainty"
+  },
+  "cases": [
+    {
+      "id": "IT-01",
+      "title": "Export active customers only",
+      "challenge": [
+        "intent",
+        "constraint"
+      ],
+      "input": {
+        "application": "Synthetic customer dashboard",
+        "transcript": "I need a current list for the onboarding team. Exclude archived customers so nobody follows up on inactive accounts.",
+        "visual_beats": [
+          {
+            "id": "B1",
+            "screen": "Customer table with Ana Park (Active), Ben Li (Archived), Cara Singh (Active).",
+            "action": "Open the customer list."
+          },
+          {
+            "id": "B2",
+            "screen": "Status filter is set to Active; only Ana Park and Cara Singh remain visible.",
+            "action": "Filter status to Active."
+          },
+          {
+            "id": "B3",
+            "screen": "Export CSV action is used and a download confirmation is visible.",
+            "action": "Export the filtered list as CSV."
+          },
+          {
+            "id": "B4",
+            "screen": "The downloaded CSV is opened and visibly contains Ana Park and Cara Singh; Ben Li is absent.",
+            "action": "Verify the downloaded CSV contents."
+          }
+        ]
+      },
+      "expected_outcome": "Documentation states that the goal is a current onboarding list, archived customers must be excluded, the Active filter is applied before export, and the CSV contains the two active customers. It must not say the list was sent or shared; only a download is shown.",
+      "checks": [
+        {
+          "id": "IT-01-A1",
+          "category": "A",
+          "criterion": "Correctly documents applying the Active status filter before export."
+        },
+        {
+          "id": "IT-01-A2",
+          "category": "A",
+          "criterion": "Correctly documents exporting a CSV containing Ana Park and Cara Singh, excluding Ben Li."
+        },
+        {
+          "id": "IT-01-I1",
+          "category": "I",
+          "criterion": "Preserves the stated purpose: a current list for the onboarding team."
+        },
+        {
+          "id": "IT-01-I2",
+          "category": "I",
+          "criterion": "Preserves the hard constraint: archived customers must be excluded."
+        },
+        {
+          "id": "IT-01-G1",
+          "category": "G",
+          "criterion": "Ties filter/export claims to the matching visual evidence or timestamp and does not claim the list was sent/shared."
+        }
+      ],
+      "forbidden_or_unsupported_claims": [
+        "The list was emailed, sent, or shared with onboarding.",
+        "The archived customer was included in the CSV."
+      ]
+    },
+    {
+      "id": "IT-02",
+      "title": "Recover from a failed CSV import",
+      "challenge": [
+        "exception",
+        "recovery"
+      ],
+      "input": {
+        "application": "Synthetic customer import screen",
+        "transcript": "The first import failed. The error says row 2 has an invalid date; dates must use YYYY-MM-DD. I will correct that value and retry. The next attempt reports three rows imported successfully.",
+        "visual_beats": [
+          {
+            "id": "B1",
+            "screen": "File picker/import screen with clients.csv selected.",
+            "action": "Attempt the first import."
+          },
+          {
+            "id": "B2",
+            "screen": "Error message identifies row 2 and requires YYYY-MM-DD date format.",
+            "action": "Inspect the failed import."
+          },
+          {
+            "id": "B3",
+            "screen": "The row 2 date is corrected to YYYY-MM-DD and clients.csv is retried.",
+            "action": "Correct the date and retry."
+          },
+          {
+            "id": "B4",
+            "screen": "Success message reports three rows imported.",
+            "action": "Verify the second attempt."
+          }
+        ]
+      },
+      "expected_outcome": "Documentation distinguishes the failed first attempt from the successful retry, identifies the row/date-format issue, records the correction, and states that the second attempt imported three rows.",
+      "checks": [
+        {
+          "id": "IT-02-A1",
+          "category": "A",
+          "criterion": "Correctly identifies clients.csv as the file being imported."
+        },
+        {
+          "id": "IT-02-A2",
+          "category": "A",
+          "criterion": "Correctly reports that the retry, not the first attempt, imported three rows successfully."
+        },
+        {
+          "id": "IT-02-H1",
+          "category": "H",
+          "criterion": "Captures the initial failure: row 2 has an invalid date and the required format is YYYY-MM-DD."
+        },
+        {
+          "id": "IT-02-H2",
+          "category": "H",
+          "criterion": "Captures the corrective date-format change followed by a retry."
+        },
+        {
+          "id": "IT-02-G1",
+          "category": "G",
+          "criterion": "Supports both the error and successful retry with their respective visual evidence or timestamps; does not imply the first attempt succeeded."
+        }
+      ],
+      "forbidden_or_unsupported_claims": [
+        "The first import succeeded.",
+        "The date was corrected in a way not shown or stated in the input."
+      ]
+    },
+    {
+      "id": "IT-03",
+      "title": "Honor a later correction",
+      "challenge": [
+        "correction",
+        "constraint"
+      ],
+      "input": {
+        "application": "Synthetic notification settings screen",
+        "transcript": "Turn customer email notifications on for this workflow. Correction: keep them off. These are internal-only test runs, and we must not email customers.",
+        "visual_beats": [
+          {
+            "id": "B1",
+            "screen": "Customer email notification toggle is switched on.",
+            "action": "Enable customer email notifications initially."
+          },
+          {
+            "id": "B2",
+            "screen": "The narrator gives the explicit correction; the setting is still on at this point.",
+            "action": "State the correction before changing the setting."
+          },
+          {
+            "id": "B3",
+            "screen": "Toggle is switched off, Save is clicked, and a saved-state indication is visible.",
+            "action": "Disable notifications and save."
+          }
+        ]
+      },
+      "expected_outcome": "Documentation acknowledges that the initial instruction was superseded. The final saved state is OFF because the workflow is internal-only and customer emails must not be sent.",
+      "checks": [
+        {
+          "id": "IT-03-A1",
+          "category": "A",
+          "criterion": "Accurately describes the initial ON setting as an intermediate state, not the final state."
+        },
+        {
+          "id": "IT-03-A2",
+          "category": "A",
+          "criterion": "Accurately states that the final setting is OFF and was saved."
+        },
+        {
+          "id": "IT-03-I1",
+          "category": "I",
+          "criterion": "Preserves the constraint that the workflow is internal-only and must not email customers."
+        },
+        {
+          "id": "IT-03-H1",
+          "category": "H",
+          "criterion": "Makes clear that the later correction supersedes the earlier instruction."
+        },
+        {
+          "id": "IT-03-G1",
+          "category": "G",
+          "criterion": "Supports the final OFF/saved state with visual evidence or timestamp and does not claim an email was sent."
+        }
+      ],
+      "forbidden_or_unsupported_claims": [
+        "The final setting is ON.",
+        "Customer emails were sent.",
+        "The first instruction remains authoritative after the correction."
+      ]
+    },
+    {
+      "id": "IT-04",
+      "title": "Do not invent an unverified outcome",
+      "challenge": [
+        "insufficient_evidence",
+        "uncertainty",
+        "intent"
+      ],
+      "input": {
+        "application": "Synthetic report screen",
+        "transcript": "My goal is to send the monthly report to Finance. This button should send it, but I have not verified delivery.",
+        "visual_beats": [
+          {
+            "id": "B1",
+            "screen": "A button labelled 'Generate and send report' is visible.",
+            "action": "Review the report action."
+          },
+          {
+            "id": "B2",
+            "screen": "The button is clicked; the UI remains on 'Processing…' when the recording ends. No completion, recipient, or delivery confirmation appears.",
+            "action": "Click Generate and send report, then end the recording while Processing… is still visible."
+          }
+        ]
+      },
+      "expected_outcome": "Documentation may identify Finance as the operator's stated intended destination, but must label that as intent, not a verified result. It must report that processing was still shown at the end and that report generation, actual recipient, and delivery are unverified.",
+      "checks": [
+        {
+          "id": "IT-04-A1",
+          "category": "A",
+          "criterion": "States that the operator clicked the button labelled 'Generate and send report'."
+        },
+        {
+          "id": "IT-04-I1",
+          "category": "I",
+          "criterion": "If Finance is mentioned as the destination, identifies it as the operator's stated goal, not a confirmed recipient."
+        },
+        {
+          "id": "IT-04-G1",
+          "category": "G",
+          "criterion": "Reports that the UI still showed Processing… at the end and explicitly marks completion/delivery as unverified."
+        },
+        {
+          "id": "IT-04-G2",
+          "category": "G",
+          "criterion": "Does not assert that a report was generated, sent, delivered, or received by Finance."
+        }
+      ],
+      "forbidden_or_unsupported_claims": [
+        "The report was successfully generated.",
+        "The report was sent or delivered.",
+        "Finance received the report.",
+        "The actual recipient is confirmed to be Finance."
+      ]
+    }
+  ]
+}
