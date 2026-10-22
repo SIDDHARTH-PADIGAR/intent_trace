@@ -1,0 +1,20 @@
+﻿case_id,check_id,category,criterion,baseline_pass_0_or_1,intent_aware_pass_0_or_1,failure_notes
+IT-01,IT-01-A1,A,Correctly documents applying the Active status filter before export.,1,1,
+IT-01,IT-01-A2,A,"Correctly documents exporting a CSV containing Ana Park and Cara Singh, excluding Ben Li.",1,1,
+IT-01,IT-01-I1,I,Preserves the stated purpose: a current list for the onboarding team.,1,1,
+IT-01,IT-01-I2,I,Preserves the hard constraint: archived customers must be excluded.,1,1,
+IT-01,IT-01-G1,G,Ties filter/export claims to the matching visual evidence or timestamp and does not claim the list was sent/shared.,1,1,
+IT-02,IT-02-A1,A,Correctly identifies clients.csv as the file being imported.,1,1,
+IT-02,IT-02-A2,A,"Correctly reports that the retry, not the first attempt, imported three rows successfully.",1,1,
+IT-02,IT-02-H1,H,Captures the initial failure: row 2 has an invalid date and the required format is YYYY-MM-DD.,1,1,
+IT-02,IT-02-H2,H,Captures the corrective date-format change followed by a retry.,1,1,
+IT-02,IT-02-G1,G,Supports both the error and successful retry with their respective visual evidence or timestamps; does not imply the first attempt succeeded.,0,1,"Baseline says “Exceptions: None reported; all steps completed successfully” despite documenting the initial failed import, creating a contradictory account. Intent-aware accurately ties the failure to B2 and successful retry to B4."
+IT-03,IT-03-A1,A,"Accurately describes the initial ON setting as an intermediate state, not the final state.",1,1,
+IT-03,IT-03-A2,A,Accurately states that the final setting is OFF and was saved.,1,1,
+IT-03,IT-03-I1,I,Preserves the constraint that the workflow is internal-only and must not email customers.,1,1,
+IT-03,IT-03-H1,H,Makes clear that the later correction supersedes the earlier instruction.,1,1,
+IT-03,IT-03-G1,G,Supports the final OFF/saved state with visual evidence or timestamp and does not claim an email was sent.,1,1,
+IT-04,IT-04-A1,A,States that the operator clicked the button labelled 'Generate and send report'.,1,1,
+IT-04,IT-04-I1,I,"If Finance is mentioned as the destination, identifies it as the operator's stated goal, not a confirmed recipient.",1,1,
+IT-04,IT-04-G1,G,Reports that the UI still showed Processing… at the end and explicitly marks completion/delivery as unverified.,1,0,"Intent-aware calls the button “stuck” on Processing, a diagnosis not established by the recording. It otherwise states that processing remained and delivery is unverified."
+IT-04,IT-04-G2,G,"Does not assert that a report was generated, sent, delivered, or received by Finance.",1,1,
